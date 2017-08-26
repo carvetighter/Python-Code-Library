@@ -13,27 +13,27 @@
 #
 # Methods included:
 # GetData()
-#	- retrieves data from a sql database and returns a dataframe
+#    - retrieves data from a sql database and returns a dataframe
 #
 # CleanData()
-#	- specific method to clean data for the CPBB model and returns a dataframe
+#    - specific method to clean data for the CPBB model and returns a dataframe
 #
 # SliceData()
-#	- specific method to slice data based on a list passed
+#    - specific method to slice data based on a list passed
 #
 # ConvertToTFIDF()
-#	- trade a TFIDF matrix based on a dataframe passed, this is for a specfic column
-#	- retunrs a list of different dense matrix, sparse matrix, dataframe
+#    - trade a TFIDF matrix based on a dataframe passed, this is for a specfic column
+#    - retunrs a list of different dense matrix, sparse matrix, dataframe
 #
 # ConvertToTFIDFSeries()
 # - take a pandas data series and convert to TFIDF matrix
 #
 # SortDict()
-#	- sorts a dictionary and returns a list, required for ConvertToTFIDF()
+#    - sorts a dictionary and returns a list, required for ConvertToTFIDF()
 #
 # NoSpaces()
-#	- removes the spaces on the left and right of the string and any spaces that are more than one
-#	- within the string
+#    - removes the spaces on the left and right of the string and any spaces that are more than one
+#    - within the string
 #
 # Important Info:
 # package pymssql will be imported with the file SqlMethods.py
@@ -53,8 +53,8 @@ def GetData(m_sql_connection, m_select, m_str_from, m_str_where):
     #
     # Requirements:
     # package pandas
-	# package pymssql
-	# package time
+    # package pymssql
+    # package time
     #
     # Inputs:
     # m_sql_connection
@@ -75,38 +75,38 @@ def GetData(m_sql_connection, m_select, m_str_from, m_str_where):
     ###############################################################################################
     ###############################################################################################
 
-	# connection info to the database
-	string_query = SqlGenSelectStatement(m_str_select = m_select, m_str_from = m_str_from, m_str_where = m_str_where)
+    # connection info to the database
+    string_query = SqlGenSelectStatement(m_str_select = m_select, m_str_from = m_str_from, m_str_where = m_str_where)
 
-	# query the database
-	time_qry_start = time.perf_counter()
-	dataframeRaw = pandas.DataFrame(pandas.read_sql(string_query, m_sql_connection))
-	time_qry = time.perf_counter() - time_qry_start
+    # query the database
+    time_qry_start = time.perf_counter()
+    dataframeRaw = pandas.DataFrame(pandas.read_sql(string_query, m_sql_connection))
+    time_qry = time.perf_counter() - time_qry_start
 
-	# print query information
-	print('Record count:', dataframeRaw['str_OrderNumber'].count())
-	print('Query time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_qry)))
+    # print query information
+    print('Record count:', dataframeRaw['str_OrderNumber'].count())
+    print('Query time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_qry)))
 
-	# return data frame
-	return dataframeRaw
+    # return data frame
+    return dataframeRaw
 
 def CleanData(dataframeData):
     ################################################################################################
     ###############################################################################################
     #
     # this method cleans the data in the dataframe passed; looking in the columns identified to [str_ItemDescription] and the 
-	# [str_NounCodeDescription] with spaces and numpy.nan types; this is broken up into two sub-methods to look at the 
-	# numpy.nan potential values and the spaces
+    # [str_NounCodeDescription] with spaces and numpy.nan types; this is broken up into two sub-methods to look at the 
+    # numpy.nan potential values and the spaces
     #
     # Requirements:
     # package numpy
-	# package pandas
-	# method NoSpaces()
+    # package pandas
+    # method NoSpaces()
     #
     # Inputs:
     # dataframeData
-	# type: pandas.DataFrame
-	# desc: the dataframe which is the raw data from the database
+    # type: pandas.DataFrame
+    # desc: the dataframe which is the raw data from the database
     #  
     # Important Info:
     # None
@@ -117,56 +117,56 @@ def CleanData(dataframeData):
     # Desc: the clean data based on the cleaning criterea
     ###############################################################################################
     ###############################################################################################
-	# start time
-	time_clean_start = time.perf_counter()
+    # start time
+    time_clean_start = time.perf_counter()
 
-	# lists
-	list_columns_comma = ['str_ItemDescription']
-	list_nan_space = [numpy.nan, 'nan', ',', ';']
-	list_phrases_delete = ['Unassigned', 'Miscellaneous', 'Other', 'Others', 'MISCELLANEOUS', 'UNASSIGNED']
-	list_date_columns = ['date_CreationDate']
-	list_string_data = list()
-	
-	# convert data from dataframe to array
-	list_data = [tuple(x) for x in dataframeData.values]
+    # lists
+    list_columns_comma = ['str_ItemDescription']
+    list_nan_space = [numpy.nan, 'nan', ',', ';']
+    list_phrases_delete = ['Unassigned', 'Miscellaneous', 'Other', 'Others', 'MISCELLANEOUS', 'UNASSIGNED']
+    list_date_columns = ['date_CreationDate']
+    list_string_data = list()
+    
+    # convert data from dataframe to array
+    list_data = [tuple(x) for x in dataframeData.values]
 
-	# replace spaces inside each element of data
-	# replaces multiple spaces with only one space
-	for i in range(0, len(list_data)):
-		list_string_data.append(tuple(NoSpaces(str(j)) for j in list_data[i]))
+    # replace spaces inside each element of data
+    # replaces multiple spaces with only one space
+    for i in range(0, len(list_data)):
+        list_string_data.append(tuple(NoSpaces(str(j)) for j in list_data[i]))
 
-	# create new data frame
-	dataframe_new = pandas.DataFrame(data = list_string_data, columns = dataframeData.columns)
+    # create new data frame
+    dataframe_new = pandas.DataFrame(data = list_string_data, columns = dataframeData.columns)
 
-	# replace commas with spaces, replace empty cells with a space, replace numpy.nan with space
-	for col in list_columns_comma:
-		# phrases to replace with a space
-		for k in list_nan_space:
-			dataframe_new[col] = dataframe_new[col].str.replace(str(k), ' ')
+    # replace commas with spaces, replace empty cells with a space, replace numpy.nan with space
+    for col in list_columns_comma:
+        # phrases to replace with a space
+        for k in list_nan_space:
+            dataframe_new[col] = dataframe_new[col].str.replace(str(k), ' ')
 
-		# phrases to delete, replace with empty string, ''
-		for k in list_phrases_delete:
-			dataframe_new[col] = dataframe_new[col].str.replace(k, '')
+        # phrases to delete, replace with empty string, ''
+        for k in list_phrases_delete:
+            dataframe_new[col] = dataframe_new[col].str.replace(k, '')
 
-		# take out the spaces at the ends of the segement
-		dataframe_new[col] = dataframe_new[col].str.strip()
+        # take out the spaces at the ends of the segement
+        dataframe_new[col] = dataframe_new[col].str.strip()
 
-	 # ensure that the [str_ItemDescription] has something in it and is not null
-	dataframe_new = dataframe_new[dataframe_new.str_ItemDescription.notnull()]
+     # ensure that the [str_ItemDescription] has something in it and is not null
+    dataframe_new = dataframe_new[dataframe_new.str_ItemDescription.notnull()]
 
-	# convert the dates to a date data type
-	for col in list_date_columns:
-		dataframe_new[col] = pandas.to_datetime(dataframe_new[col])
+    # convert the dates to a date data type
+    for col in list_date_columns:
+        dataframe_new[col] = pandas.to_datetime(dataframe_new[col])
 
-	# stop time
-	time_clean_duration = time.perf_counter() - time_clean_start
+    # stop time
+    time_clean_duration = time.perf_counter() - time_clean_start
 
-	# print time information
-	print('Record count:', dataframe_new['str_OrderNumber'].count())
-	print('Clean time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_clean_duration)))
+    # print time information
+    print('Record count:', dataframe_new['str_OrderNumber'].count())
+    print('Clean time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_clean_duration)))
 
-	# the dataframe returned, clean data
-	return dataframe_new
+    # the dataframe returned, clean data
+    return dataframe_new
 
 def SliceData(dataframeData, list_slice_criterea):
     ################################################################################################
@@ -175,20 +175,20 @@ def SliceData(dataframeData, list_slice_criterea):
     # the method will slice the data to be seperate the 'Miscellaneous', 'Uassigned', 'Others'
     #
     # Requirements:
-	# package pandas
+    # package pandas
     #
     # Inputs:
     # dataframeData
-	# type: pandas.DataFrame
-	# desc: the dataframe which is the clean data from the database
+    # type: pandas.DataFrame
+    # desc: the dataframe which is the clean data from the database
     #  
     # list_slice_criterea
-	# type: list object
-	# desc: the list of phrases or criterea to create a new dataframe
+    # type: list object
+    # desc: the list of phrases or criterea to create a new dataframe
     #  
     # Important Info:
     # a new column is created in the data frame [str_ClassColumn01] which is the combination of the columns
-	# [str_ItemDescription]
+    # [str_ItemDescription]
     #
     # Return:
     # object
@@ -197,47 +197,47 @@ def SliceData(dataframeData, list_slice_criterea):
     ###############################################################################################
     ###############################################################################################
 
-	# start time
-	time_slice_start = time.perf_counter()
+    # start time
+    time_slice_start = time.perf_counter()
 
-	# for intellisense in visual studio
-	dataframeData = pandas.DataFrame(dataframeData)
+    # for intellisense in visual studio
+    dataframeData = pandas.DataFrame(dataframeData)
 
-	# get the data frame to run the cluster algorithm on
-	dataframe_cluster = pandas.DataFrame(dataframeData.loc[dataframeData['str_ItemCategory'].isin(list_slice_criterea)])
+    # get the data frame to run the cluster algorithm on
+    dataframe_cluster = pandas.DataFrame(dataframeData.loc[dataframeData['str_ItemCategory'].isin(list_slice_criterea)])
 
-	# create new column to cluster on which combines columns [str_ItemDescription] & [str_NounCodeDescription]
-	dataframe_cluster['str_ClassColumn01'] = dataframe_cluster['str_ItemDescription']
+    # create new column to cluster on which combines columns [str_ItemDescription] & [str_NounCodeDescription]
+    dataframe_cluster['str_ClassColumn01'] = dataframe_cluster['str_ItemDescription']
 
-	# strip spaces off the end
-	dataframe_cluster['str_ClassColumn01']  = dataframe_cluster['str_ClassColumn01'] .str.strip()
+    # strip spaces off the end
+    dataframe_cluster['str_ClassColumn01']  = dataframe_cluster['str_ClassColumn01'] .str.strip()
 
-	# ensure [str_ClassColumn01] is not null
-	dataframe_cluster = dataframe_cluster[dataframe_cluster.str_ClassColumn01.notnull()]
+    # ensure [str_ClassColumn01] is not null
+    dataframe_cluster = dataframe_cluster[dataframe_cluster.str_ClassColumn01.notnull()]
 
-	# duration time
-	time_slice_duration = time.perf_counter() - time_slice_start
-	print('Record count:', dataframe_cluster['str_OrderNumber'].count())
-	print('Slice time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_slice_duration)))
+    # duration time
+    time_slice_duration = time.perf_counter() - time_slice_start
+    print('Record count:', dataframe_cluster['str_OrderNumber'].count())
+    print('Slice time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_slice_duration)))
 
-	# return dataframe
-	return dataframe_cluster
+    # return dataframe
+    return dataframe_cluster
 
 def ConvertToTFIDF(dataframeData):
-	################################################################################################
+    ################################################################################################
     ###############################################################################################
     #
     # the method will take the column [str_ClassColumn01] from the dataframe and create a TFIDF matrix to cluster on
     #
     # Requirements:
-	# package sklearn.feature_extranction.text
-	# package pandas
-	# method SortDict()
+    # package sklearn.feature_extranction.text
+    # package pandas
+    # method SortDict()
     #
     # Inputs:
     # dataframeData
-	# type: pandas.DataFrame
-	# desc: the dataframe which is the clean data
+    # type: pandas.DataFrame
+    # desc: the dataframe which is the clean data
     #  
     # Important Info:
     # None
@@ -246,67 +246,67 @@ def ConvertToTFIDF(dataframeData):
     # object
     # Type: list
     # Desc: the list contains three objects:
-	# list[0] -> sparse matrix of the TFIDF matrix
-	# list[1] -> dense matrix of the TFIDF matrix
-	# list[2] -> dataframe of the TFIDF matrix
+    # list[0] -> sparse matrix of the TFIDF matrix
+    # list[1] -> dense matrix of the TFIDF matrix
+    # list[2] -> dataframe of the TFIDF matrix
     ###############################################################################################
     ###############################################################################################
 
-	# start time
-	time_tfidf_start = time.perf_counter()
+    # start time
+    time_tfidf_start = time.perf_counter()
 
-	# for visual studio for method and type checking
-	dataframeData = pandas.DataFrame(dataframeData)
+    # for visual studio for method and type checking
+    dataframeData = pandas.DataFrame(dataframeData)
 
-	# lists
-	list_return = list()
-	
-	# create the count vector matix from the works in [str_ClassColumn01]
-	cnt_vect = CountVectorizer(min_df = 1)
-	class_col_cnt_vect = cnt_vect.fit_transform(dataframeData['str_ClassColumn01'])
-	
-	# create the TFIDF matrix
-	tfidf_trans = TfidfTransformer(smooth_idf = False)
-	tfidf_sparse = tfidf_trans.fit_transform(class_col_cnt_vect)
+    # lists
+    list_return = list()
+    
+    # create the count vector matix from the works in [str_ClassColumn01]
+    cnt_vect = CountVectorizer(min_df = 1)
+    class_col_cnt_vect = cnt_vect.fit_transform(dataframeData['str_ClassColumn01'])
+    
+    # create the TFIDF matrix
+    tfidf_trans = TfidfTransformer(smooth_idf = False)
+    tfidf_sparse = tfidf_trans.fit_transform(class_col_cnt_vect)
 
-	# create dense TFIDF matrix
-	tfidf_dense = tfidf_sparse.todense()
+    # create dense TFIDF matrix
+    tfidf_dense = tfidf_sparse.todense()
 
-	# get columns for the dataframe
-	list_sorted_v = SortDict(cnt_vect.vocabulary_ , 1)
-	list_columns_v = [i[0] for i in list_sorted_v]
+    # get columns for the dataframe
+    list_sorted_v = SortDict(cnt_vect.vocabulary_ , 1)
+    list_columns_v = [i[0] for i in list_sorted_v]
 
-	# create data frame
-	dataframe_tfidf = pandas.DataFrame(data = tfidf_dense, columns = list_columns_v)
-	
-	# create return list
-	list_return.append(tfidf_sparse)
-	list_return.append(tfidf_dense)
-	list_return.append(dataframe_tfidf)
+    # create data frame
+    dataframe_tfidf = pandas.DataFrame(data = tfidf_dense, columns = list_columns_v)
+    
+    # create return list
+    list_return.append(tfidf_sparse)
+    list_return.append(tfidf_dense)
+    list_return.append(dataframe_tfidf)
 
-	# time duration
-	time_tfidf_duration = time.perf_counter() - time_tfidf_start
-	print('TFIDF time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_tfidf_duration)))
+    # time duration
+    time_tfidf_duration = time.perf_counter() - time_tfidf_start
+    print('TFIDF time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_tfidf_duration)))
 
-	# return list
-	return list_return
+    # return list
+    return list_return
 
 def ConvertToTFIDFSeries(m_pandas_series):
-	################################################################################################
+    ################################################################################################
     ###############################################################################################
     #
     # the method will take a pandas series 
     #
     # Requirements:
-	# package sklearn.feature_extranction.text
-	# package pandas
-	# package time
-	# method SortDict()
+    # package sklearn.feature_extranction.text
+    # package pandas
+    # package time
+    # method SortDict()
     #
     # Inputs:
     # dataframeData
-	# type: pandas.DataFrame
-	# desc: the dataframe which is the clean data
+    # type: pandas.DataFrame
+    # desc: the dataframe which is the clean data
     #  
     # Important Info:
     # None
@@ -315,54 +315,54 @@ def ConvertToTFIDFSeries(m_pandas_series):
     # object
     # Type: list
     # Desc: the list contains three objects:
-	# list[0] -> sparse matrix of the TFIDF matrix
-	# list[1] -> dense matrix of the TFIDF matrix
-	# list[2] -> dataframe of the TFIDF matrix
+    # list[0] -> sparse matrix of the TFIDF matrix
+    # list[1] -> dense matrix of the TFIDF matrix
+    # list[2] -> dataframe of the TFIDF matrix
     ###############################################################################################
     ###############################################################################################
 
-	# start time
-	time_tfidf_start = time.perf_counter()
+    # start time
+    time_tfidf_start = time.perf_counter()
 
-	# for visual studio for method and type checking
-	m_pandas_series = pandas.Series(m_pandas_series)
+    # for visual studio for method and type checking
+    m_pandas_series = pandas.Series(m_pandas_series)
 
-	# lists
-	list_return = list()
-	
-	# create the count vector matix from the pandas series
-	cnt_vect = CountVectorizer(min_df = 1)
-	class_col_cnt_vect = cnt_vect.fit_transform(m_pandas_series)
-	
-	# create the TFIDF matrix
-	tfidf_trans = TfidfTransformer(smooth_idf = False)
-	tfidf_sparse = tfidf_trans.fit_transform(class_col_cnt_vect)
+    # lists
+    list_return = list()
+    
+    # create the count vector matix from the pandas series
+    cnt_vect = CountVectorizer(min_df = 1)
+    class_col_cnt_vect = cnt_vect.fit_transform(m_pandas_series)
+    
+    # create the TFIDF matrix
+    tfidf_trans = TfidfTransformer(smooth_idf = False)
+    tfidf_sparse = tfidf_trans.fit_transform(class_col_cnt_vect)
 
-	# create dense TFIDF matrix
-	# commented out due to memory error
-	#tfidf_dense = tfidf_sparse.todense()
+    # create dense TFIDF matrix
+    # commented out due to memory error
+    #tfidf_dense = tfidf_sparse.todense()
 
-	# get columns for the dataframe
-	list_sorted_v = SortDict(cnt_vect.vocabulary_ , 1)
-	list_columns_v = [i[0] for i in list_sorted_v]
+    # get columns for the dataframe
+    list_sorted_v = SortDict(cnt_vect.vocabulary_ , 1)
+    list_columns_v = [i[0] for i in list_sorted_v]
 
-	# create data frame
-	# commented out due to memory error
-	# dataframe_tfidf = pandas.DataFrame(data = tfidf_dense, columns = list_columns_v) 
-	
-	# create return list
-	list_return.append(tfidf_sparse)
-	list_return.append(tfidf_sparse)
-	list_return.append(tfidf_sparse)
-	#list_return.append(tfidf_dense) # commented out due to memory error
-	#list_return.append(dataframe_tfidf) # commented out due to memory error
+    # create data frame
+    # commented out due to memory error
+    # dataframe_tfidf = pandas.DataFrame(data = tfidf_dense, columns = list_columns_v) 
+    
+    # create return list
+    list_return.append(tfidf_sparse)
+    list_return.append(tfidf_sparse)
+    list_return.append(tfidf_sparse)
+    #list_return.append(tfidf_dense) # commented out due to memory error
+    #list_return.append(dataframe_tfidf) # commented out due to memory error
 
-	# time duration
-	time_tfidf_duration = time.perf_counter() - time_tfidf_start
-	print('TFIDF time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_tfidf_duration)))
+    # time duration
+    time_tfidf_duration = time.perf_counter() - time_tfidf_start
+    print('TFIDF time (HH:MM:SS):', time.strftime('%H:%M:%S', time.gmtime(time_tfidf_duration)))
 
-	# return list
-	return list_return
+    # return list
+    return list_return
 
 def SortDict(dict_org, int_index = 0, bool_descending = False):
     ###############################################################################################
@@ -439,9 +439,9 @@ def NoSpaces(string_org):
 def NoSymbols(m_pandas_series):
     ###############################################################################################
     ###############################################################################################
-	#
+    #
     # this method cleans the data in a pandas series passed; it replaces most of the standard symbols with a space and
-	# na or nan values with a space
+    # na or nan values with a space
     #
     # Requirements:
     # package pandas
@@ -450,7 +450,7 @@ def NoSymbols(m_pandas_series):
     # m_pandas_series
     # Type: pandas series
     # Desc: the data to clean
-	#
+    #
     # Important Info:
     # None
     #
@@ -459,56 +459,56 @@ def NoSymbols(m_pandas_series):
     # Type: pandas series
     # Desc: the clean data of the data series
     ###############################################################################################
-    ###############################################################################################	
+    ###############################################################################################    
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# package import
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # package import
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# variable / object declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # variable / object declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	# type casting for visual studio
-	m_pandas_series = pandas.Series(m_pandas_series)
+    # type casting for visual studio
+    m_pandas_series = pandas.Series(m_pandas_series)
 
-	# lists
-	list_symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', '=', '~', '`', '{', '[', '}', ']', '|', ':', ';', '"', "'", '<', ',', '.', '>', '?', '/']
+    # lists
+    list_symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', '=', '~', '`', '{', '[', '}', ']', '|', ':', ';', '"', "'", '<', ',', '.', '>', '?', '/']
 
-	# variables
+    # variables
 
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#
-	# Start
-	#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#				
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #
+    # Start
+    #
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#                
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# replacing na / nan values with space
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#			
-	
-	array_nan = m_pandas_series.isnull()
-	m_pandas_series.loc[array_nan] = 0
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # replacing na / nan values with space
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#            
+    
+    array_nan = m_pandas_series.isnull()
+    m_pandas_series.loc[array_nan] = 0
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# replacing all the symbols with a space
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	
-	for symbol in list_symbols:
-		m_pandas_series = m_pandas_series.str.replace(symbol, ' ')		
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # replacing all the symbols with a space
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    
+    for symbol in list_symbols:
+        m_pandas_series = m_pandas_series.str.replace(symbol, ' ')        
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# return value
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # return value
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	return m_pandas_series		
+    return m_pandas_series        
 
 def TakeOutNumbers(m_pandas_series, m_string_name):
     ###############################################################################################
     ###############################################################################################
-	#
+    #
     # this method takes out the phrases that are only numbers in the elements of the pandas series
     #
     # Requirements:
@@ -518,11 +518,11 @@ def TakeOutNumbers(m_pandas_series, m_string_name):
     # m_pandas_series
     # Type: pandas series
     # Desc: the data to clean
-	#
+    #
     # m_string_name
     # Type: string
     # Desc: the name for the series
-	#
+    #
     # Important Info:
     # None
     #
@@ -531,74 +531,74 @@ def TakeOutNumbers(m_pandas_series, m_string_name):
     # Type: pandas series
     # Desc: the clean data of the data series
     ###############################################################################################
-    ###############################################################################################	
+    ###############################################################################################    
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# variable / object declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # variable / object declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	# type casting for visual studio
-	m_pandas_series = pandas.Series(m_pandas_series)
+    # type casting for visual studio
+    m_pandas_series = pandas.Series(m_pandas_series)
 
-	# lists
-	list_address_clean_no_numbers = list()
-	list_value_nans = list()
+    # lists
+    list_address_clean_no_numbers = list()
+    list_value_nans = list()
 
-	# variables
+    # variables
 
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#
-	# Start
-	#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#				
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #
+    # Start
+    #
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#                
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# replacing all the phrases with only numbers
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	
-	# take out the nan values and replace with zero
-	array_nan = m_pandas_series.isnull()
-	m_pandas_series.loc[array_nan] = 0
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # replacing all the phrases with only numbers
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    
+    # take out the nan values and replace with zero
+    array_nan = m_pandas_series.isnull()
+    m_pandas_series.loc[array_nan] = 0
 
-	# split on space to create list of phrases
-	m_pandas_series = m_pandas_series.str.split(' ')
-	array_values = numpy.array(m_pandas_series.values)
+    # split on space to create list of phrases
+    m_pandas_series = m_pandas_series.str.split(' ')
+    array_values = numpy.array(m_pandas_series.values)
 
-	# loop through addresses
-	for list_value in array_values:
-		string_value_clean = ''
-		string_empty = ''
+    # loop through addresses
+    for list_value in array_values:
+        string_value_clean = ''
+        string_empty = ''
 
-		# ensure the type is a string and not a float or <numpy.nan>
-		# if the length after the split is zero
-		if type(list_value) == float: # for numpy.nan
-			list_address_clean_no_numbers.append(string_empty)
-		elif len(list_value) > 1 and type(list_value[0]) == str:
-			# take out the numbers in the string
-			for phrase in list_value:
-				if phrase.isnumeric() == False:
-					string_value_clean += phrase + ' '
+        # ensure the type is a string and not a float or <numpy.nan>
+        # if the length after the split is zero
+        if type(list_value) == float: # for numpy.nan
+            list_address_clean_no_numbers.append(string_empty)
+        elif len(list_value) > 1 and type(list_value[0]) == str:
+            # take out the numbers in the string
+            for phrase in list_value:
+                if phrase.isnumeric() == False:
+                    string_value_clean += phrase + ' '
 
-			# create a list of data of only clean address with no numbers
-			list_check = string_value_clean.strip().split(' ')
-			if len(list_check) == 0:
-				list_address_clean_no_numbers.append(string_empty)
-			else:
-				list_address_clean_no_numbers.append(string_value_clean.strip())			
-		# if there is only one phrase after the split
-		elif len(list_value) == 1 and type(list_value[0]) == str:
-			if list_value[0].isnumeric() == False:
-				list_address_clean_no_numbers.append(list_value[0])
-			else:
-				list_address_clean_no_numbers.append(string_empty)
-		else:
-			pass	
+            # create a list of data of only clean address with no numbers
+            list_check = string_value_clean.strip().split(' ')
+            if len(list_check) == 0:
+                list_address_clean_no_numbers.append(string_empty)
+            else:
+                list_address_clean_no_numbers.append(string_value_clean.strip())            
+        # if there is only one phrase after the split
+        elif len(list_value) == 1 and type(list_value[0]) == str:
+            if list_value[0].isnumeric() == False:
+                list_address_clean_no_numbers.append(list_value[0])
+            else:
+                list_address_clean_no_numbers.append(string_empty)
+        else:
+            pass    
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# return value
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # return value
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	series_return = pandas.Series( data = list_address_clean_no_numbers, name = m_string_name)
-	return series_return
+    series_return = pandas.Series( data = list_address_clean_no_numbers, name = m_string_name)
+    return series_return

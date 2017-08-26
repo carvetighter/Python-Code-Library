@@ -11,28 +11,28 @@
 #
 # Methods included:
 # AgglClust()
-#	- Agglomerative clustering algorithm
+#    - Agglomerative clustering algorithm
 #
 # BatchKMClust()
-#	- K-Nearest Neighbors batch clustering algorithm
+#    - K-Nearest Neighbors batch clustering algorithm
 #
 # DbsClust()
-#	- Density clustering aglorithm
+#    - Density clustering aglorithm
 #
 # SpectClust()
-#	- Spectral clustering algorithm
+#    - Spectral clustering algorithm
 #
 # FixDbscanRsults()
-#	- corrects for the '-1' values that may occur from the Density clustering algorithm
+#    - corrects for the '-1' values that may occur from the Density clustering algorithm
 #
 # SwitchCluster()
-#	- switcher function for the clustering algorithms
+#    - switcher function for the clustering algorithms
 #
 # CreateClusterPrediction()
-#	- creates the object to cluster the data using the switcher function
+#    - creates the object to cluster the data using the switcher function
 #
 # GetClusterResults()
-#	-  fit and predicts the clusters based on the algorithms passed
+#    -  fit and predicts the clusters based on the algorithms passed
 #
 # Important Info:
 # None
@@ -51,7 +51,7 @@ def AgglClust(list_c_args):
     ###############################################################################################
     #
     # this method returns an Agglomerative Clustering Object based on the list of arguements passed; this method is 
-	# designed to find the most appropriate type of clustering method for the data
+    # designed to find the most appropriate type of clustering method for the data
     #
     # Requirements:
     # package sklearn.cluster.AgglomeativeClustering
@@ -81,7 +81,7 @@ def BatchKmClust(list_c_args):
     ###############################################################################################
     #
     # this method returns an Batch KMeans Clustering object (KNN) based on the list of arguements passed; this method is 
-	# designed to find the most appropriate type of clustering method for the data
+    # designed to find the most appropriate type of clustering method for the data
     #
     # Requirements:
     # package sklearn.cluster.MiniBatchKMeans
@@ -111,7 +111,7 @@ def DbsClust(list_c_args):
     ###############################################################################################
     #
     # this method returns an Densitiy Based Scan (DBSCAN) clustering object based on the list of arguements passed; 
-	# this method is designed to find the most appropriate type of clustering method for the data
+    # this method is designed to find the most appropriate type of clustering method for the data
     #
     # Requirements:
     # package sklearn.cluster.DBSCAN
@@ -141,7 +141,7 @@ def SpectClust(list_c_args):
     ###############################################################################################
     #
     # this method returns an Spectral Clustering object based on the list of arguements passed; 
-	# this method is designed to find the most appropriate type of clustering method for the data
+    # this method is designed to find the most appropriate type of clustering method for the data
     #
     # Requirements:
     # package sklearn.cluster.DBSCAN
@@ -171,7 +171,7 @@ def FixDbscanResults(list_dbscan_results):
     ###############################################################################################
     #
     # this method increments the DBSCAN results by 1 to account for the Noise points labled -1 in the results
-	# this  is needed for numpy.bincount() function
+    # this  is needed for numpy.bincount() function
     #
     # Requirements:
     # package numpy
@@ -189,44 +189,44 @@ def FixDbscanResults(list_dbscan_results):
     # Type: list
     # Desc: this is an object which clusters the group of data bassed to the object
     ###############################################################################################
-    ###############################################################################################	
+    ###############################################################################################    
 
-	# lists
-	list_return_results = list()
-	
-	# loop through the results from DBSCAN
-	for result in list_dbscan_results:
-		# set temp variables
-		list_temp = list()
+    # lists
+    list_return_results = list()
+    
+    # loop through the results from DBSCAN
+    for result in list_dbscan_results:
+        # set temp variables
+        list_temp = list()
 
-		# informational lists
-		cluster_labels = result[0]    
+        # informational lists
+        cluster_labels = result[0]    
 
-		# find the -1 labels from DBSCAN cluster results
-		# add 1 to help in the evaluation
-		for label in cluster_labels:
-			label += 1
-			list_temp.append(label)
+        # find the -1 labels from DBSCAN cluster results
+        # add 1 to help in the evaluation
+        for label in cluster_labels:
+            label += 1
+            list_temp.append(label)
 
-		# convert to numpy array
-		array_label = numpy.array(list_temp)
+        # convert to numpy array
+        array_label = numpy.array(list_temp)
 
-		# replace the list of labels
-		result.pop(0)
-		result.insert(0, array_label)
+        # replace the list of labels
+        result.pop(0)
+        result.insert(0, array_label)
 
-		# add to return list
-		list_return_results.append(result)
+        # add to return list
+        list_return_results.append(result)
 
-	# return list
-	return list_return_results
+    # return list
+    return list_return_results
 
 def SwitchCluster(string_clust, list_args):
     ################################################################################################
     ###############################################################################################
     #
     # this method will take a string which identfies the the cluster algorithm and the list of arguements to generate
-	# the the cluster object
+    # the the cluster object
     #
     # Requirements:
     # None
@@ -251,151 +251,151 @@ def SwitchCluster(string_clust, list_args):
     # object
     # Type: cluster object
     # Desc: the cluster object is the result of the fucntion call in which the function is the target of the key in the 
-	#			  dictionary
+    #              dictionary
     ###############################################################################################
     ###############################################################################################
-	dict_switcher = {
-		'Aggl': AgglClust,
-		'BatchKm': BatchKmClust,
-		'Dbs': DbsClust, 
-		'Spec': SpectClust
-		}
+    dict_switcher = {
+        'Aggl': AgglClust,
+        'BatchKm': BatchKmClust,
+        'Dbs': DbsClust, 
+        'Spec': SpectClust
+        }
 
     # get fucntion from dictionary
-	func = dict_switcher.get(string_clust)
-	
-	# execute function
-	return func(list_args)
+    func = dict_switcher.get(string_clust)
+    
+    # execute function
+    return func(list_args)
 
 def CreateClusterPrediction(list_num_clust, list_02, list_03, string_cluster):
-	################################################################################################
+    ################################################################################################
     ###############################################################################################
     #
     # the method will takes a list of agruements and the type of culster algorithm to use and calls the switcher function
-	# which will create a list of clustering objects with an ID detailing the variables used
+    # which will create a list of clustering objects with an ID detailing the variables used
     #
     # Requirements:
-	# method SwitchCluster()
+    # method SwitchCluster()
     #
     # Inputs:
     # list_num_clust
-	# type: list
-	# desc: the number of clusters to seperate the data into
+    # type: list
+    # desc: the number of clusters to seperate the data into
     #  
     # list_02
-	# type: list
-	# desc: parameter list
+    # type: list
+    # desc: parameter list
     #  
     # list_03
-	# type: list
-	# desc: parameter list
+    # type: list
+    # desc: parameter list
     #  
     # string_cluster
-	# type: string
-	# desc: the cluster algorithm to use
+    # type: string
+    # desc: the cluster algorithm to use
     #  
     # Important Info:
     # - the string which id's the cluster is in the form:
-	#		"cluster algorithm uses|number of clusters|parameter 02|parameter 03"
+    #        "cluster algorithm uses|number of clusters|parameter 02|parameter 03"
     #
     # Return:
     # object
     # Type: list
     # Desc: the list of the algorithm and the id of the algorithm
-	# list[x][0] -> type: sklearn.cluster object; the clustering algorithm object
-	# list[x][1] -> type: string; the ID to include the type of clustering algorithm and each parameter seperated by a '|'
+    # list[x][0] -> type: sklearn.cluster object; the clustering algorithm object
+    # list[x][1] -> type: string; the ID to include the type of clustering algorithm and each parameter seperated by a '|'
     ###############################################################################################
     ###############################################################################################
 
-	# create lists
-	list_cluster_algorithm = list()
-	list_parameters = list()
+    # create lists
+    list_cluster_algorithm = list()
+    list_parameters = list()
 
-	# loop through parameter lists
-	for item_num_clust in list_num_clust:
-		for item_02 in list_02:
-			for item_03 in list_03:
-				# create parmeter list and ID
-				list_parameters = [item_num_clust, item_02, item_03]
-				string_cluster_id = string_cluster + '|' + str(item_num_clust) + '|' + str(item_02) + '|' + str(item_03)
+    # loop through parameter lists
+    for item_num_clust in list_num_clust:
+        for item_02 in list_02:
+            for item_03 in list_03:
+                # create parmeter list and ID
+                list_parameters = [item_num_clust, item_02, item_03]
+                string_cluster_id = string_cluster + '|' + str(item_num_clust) + '|' + str(item_02) + '|' + str(item_03)
 
-				# create different clustering algorithms based on the parmeter lists
-				list_cluster_algorithm.append([SwitchCluster(string_cluster, list_parameters), string_cluster_id])
+                # create different clustering algorithms based on the parmeter lists
+                list_cluster_algorithm.append([SwitchCluster(string_cluster, list_parameters), string_cluster_id])
 
-				# reset lists
-				list_parameters = list()
+                # reset lists
+                list_parameters = list()
 
-	# return list of cluster algorithms & ID's
-	return list_cluster_algorithm
+    # return list of cluster algorithms & ID's
+    return list_cluster_algorithm
 
 def GetClusterResults(list_cluster_alg, list_matrices):
-	################################################################################################
+    ################################################################################################
     ################################################################################################
     #
     # this method fit and predicts the clusters based on the algorithms passed
     #
     # Requirements:
-	# package sklearn.cluster
+    # package sklearn.cluster
     #
     # Inputs:
     # list_cluster_alg
-	# type: list
-	# desc: the clustering algorithms
+    # type: list
+    # desc: the clustering algorithms
     #  
     # list_matrices
-	# type: list
-	# desc: the data matrices sparse, dense, dataframe
-	# list_matrices[0] -> sparse matrix
-	# list_matrices[1] -> dense matrix
-	# list_matrices[2] -> dataframe matrix
-	#
+    # type: list
+    # desc: the data matrices sparse, dense, dataframe
+    # list_matrices[0] -> sparse matrix
+    # list_matrices[1] -> dense matrix
+    # list_matrices[2] -> dataframe matrix
+    #
     # Important Info:
-	# - in <list_cluster_algorithm> the order and the seperator is important;  this comes from the method
-	#		CreateClusterPrediction(); the seperator to split the string on is the pipe "|" character not an
-	#		uppercase i "I" or a lowercase L "l"
+    # - in <list_cluster_algorithm> the order and the seperator is important;  this comes from the method
+    #        CreateClusterPrediction(); the seperator to split the string on is the pipe "|" character not an
+    #        uppercase i "I" or a lowercase L "l"
     #
     # Return:
     # object
     # Type: list
     # Desc: the list of the clustering results
-	# list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as indicated by the sparse
-	#				or dense array
-	# list[x][1] -> type: string; the cluster ID with the parameters
+    # list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as indicated by the sparse
+    #                or dense array
+    # list[x][1] -> type: string; the cluster ID with the parameters
     ###############################################################################################
     ###############################################################################################
 
-	# lists
-	list_results = list()
-	
-	# get algorithm id
-	list_id = list_cluster_alg[0][1].split(sep = '|')
+    # lists
+    list_results = list()
+    
+    # get algorithm id
+    list_id = list_cluster_alg[0][1].split(sep = '|')
 
-	# get results
-	# loop through list and predict results
-	for i in range(0, len(list_cluster_alg)):
-		# get the cluster algorithm type
-		list_id = list_cluster_alg[i][1].split(sep = '|')
+    # get results
+    # loop through list and predict results
+    for i in range(0, len(list_cluster_alg)):
+        # get the cluster algorithm type
+        list_id = list_cluster_alg[i][1].split(sep = '|')
 
-		# start time
-		time_start = time.perf_counter()
+        # start time
+        time_start = time.perf_counter()
 
-		# the results of the cluster algorithm and ID
-		# agglomerative and spectral clustering need a dense matrix
-		# KNN and DBSCAN can use a sparse matrix
-		if list_id[0] == 'Aggl' or list_id[0] == 'Spec':
-			list_results.append([list_cluster_alg[i][0].fit_predict(list_matrices[1]), list_cluster_alg[i][1]])
-		else:
-			list_results.append([list_cluster_alg[i][0].fit_predict(list_matrices[0]), list_cluster_alg[i][1]])
-		
-		# elapsed time	
-		time_total = time.perf_counter() - time_start
-		print('%s clustering time (HH:MM:SS): %s' %(list_cluster_alg[i][1], time.strftime('%H:%M:%S', time.gmtime(time_total))))
+        # the results of the cluster algorithm and ID
+        # agglomerative and spectral clustering need a dense matrix
+        # KNN and DBSCAN can use a sparse matrix
+        if list_id[0] == 'Aggl' or list_id[0] == 'Spec':
+            list_results.append([list_cluster_alg[i][0].fit_predict(list_matrices[1]), list_cluster_alg[i][1]])
+        else:
+            list_results.append([list_cluster_alg[i][0].fit_predict(list_matrices[0]), list_cluster_alg[i][1]])
+        
+        # elapsed time    
+        time_total = time.perf_counter() - time_start
+        print('%s clustering time (HH:MM:SS): %s' %(list_cluster_alg[i][1], time.strftime('%H:%M:%S', time.gmtime(time_total))))
 
-	#time_start = time.perf_counter()
-	#list_results = FitPredictCluster(list_cluster_alg, list_matrices)
-	#time_total = time.perf_counter() - time_start
-	#print('%s clustering results created for %s clustering process' %(len(list_results), list_id[0]))
-	#print('%s clustering time (HH:MM:SS): %s' %(list_id[0], time.strftime('%H:%M:%S', time.gmtime(time_total))))
+    #time_start = time.perf_counter()
+    #list_results = FitPredictCluster(list_cluster_alg, list_matrices)
+    #time_total = time.perf_counter() - time_start
+    #print('%s clustering results created for %s clustering process' %(len(list_results), list_id[0]))
+    #print('%s clustering time (HH:MM:SS): %s' %(list_id[0], time.strftime('%H:%M:%S', time.gmtime(time_total))))
 
-	# return value
-	return list_results
+    # return value
+    return list_results
