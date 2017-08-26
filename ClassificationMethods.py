@@ -11,7 +11,7 @@
 #
 # Methods included:
 # SwitchClassifiction()
-#	- switcher function for the clustering algorithms
+#    - switcher function for the clustering algorithms
 #
 # Important Info:
 # None
@@ -53,7 +53,7 @@ def SwitchClassification(m_string_class = '', m_list_args = list()):
     # m_string_class
     # Type: string
     # Desc: the identifier for the classifcation algorithm
-	#
+    #
     # m_list_args
     # Type: list
     # Desc: a list of arguments for the classification object, each object will be different
@@ -66,53 +66,53 @@ def SwitchClassification(m_string_class = '', m_list_args = list()):
     # Type: classification object
     # Desc: the classificaiton object based on the algorithm and arguements
     ###############################################################################################
-    ###############################################################################################	
+    ###############################################################################################    
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# objects declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # objects declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# time declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # time declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# lists / dictionary declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # lists / dictionary declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	dict_switcher = {
-		'SDGC': class_SGDC,
-		'LogReg': class_LogisticRegression,
-		'NaiveBayes': class_NaiveBayes,
-		'KNN': class_KNN,
-		'RNN': class_RNN,
-		'NCentroid': class_NearestCentroid,
-		'Ridge': class_Ridge,
-		'RandomForest': class_RandomForest,
-		'SVC': class_SVC,
-		'LinSVC': class_LinSVC,
-		'NuSVC': class_NuSVC
-		}
+    dict_switcher = {
+        'SDGC': class_SGDC,
+        'LogReg': class_LogisticRegression,
+        'NaiveBayes': class_NaiveBayes,
+        'KNN': class_KNN,
+        'RNN': class_RNN,
+        'NCentroid': class_NearestCentroid,
+        'Ridge': class_Ridge,
+        'RandomForest': class_RandomForest,
+        'SVC': class_SVC,
+        'LinSVC': class_LinSVC,
+        'NuSVC': class_NuSVC
+        }
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# variables declarations
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # variables declarations
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#
-	# get the classification object
-	#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-	
-	class_object = dict_switcher.get(m_string_class)				
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #
+    # get the classification object
+    #
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    
+    class_object = dict_switcher.get(m_string_class)                
 
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
-	# return value
-	#------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
+    # return value
+    #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-	return class_object(m_list_args)
+    return class_object(m_list_args)
 
 def class_SVC(m_list_args):
     ###############################################################################################
@@ -129,7 +129,7 @@ def class_SVC(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; 'C', penalty paramter, default is 1.0
     # m_list_args[1] -> type: string; kernal, specifies the kernal for the algorithm, default is 'rbf'
-	# m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.001
+    # m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.001
     #    
     # Important Info:
     # None
@@ -141,7 +141,7 @@ def class_SVC(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return SVC(C = float(m_list_args[0]), kernel = str(m_list_args[1]), tol = float(m_list_args[2]))
+    return SVC(C = float(m_list_args[0]), kernel = str(m_list_args[1]), tol = float(m_list_args[2]))
 
 def class_LinSVC(m_list_args):
     ###############################################################################################
@@ -158,7 +158,7 @@ def class_LinSVC(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; 'C', penalty paramter, default is 1.0
     # m_list_args[1] -> type: string; penalty, specifies the norm used for penalization, 'l1' or 'l2', default is 'l2'
-	# m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.0001
+    # m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.0001
     #    
     # Important Info:
     # None
@@ -170,7 +170,7 @@ def class_LinSVC(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return LinearSVC(C = float(m_list_args[0]), penalty = str(m_list_args[1]), tol = float(m_list_args[2]))
+    return LinearSVC(C = float(m_list_args[0]), penalty = str(m_list_args[1]), tol = float(m_list_args[2]))
 
 def class_NuSVC(m_list_args):
     ###############################################################################################
@@ -186,10 +186,10 @@ def class_NuSVC(m_list_args):
     # Type: list
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; 'nu', upper bound of the fraction of training errors and a lower bound of the fraction of 
-	#								support vectors, default is 0.5
+    #                                support vectors, default is 0.5
     # m_list_args[1] -> type: string; kernal, specifies the kernal for the algorithm, 'linear' 'poly' 'rbf' 'sigmoid', 'precomputed',
-	#								default is 'rbf'
-	# m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.001
+    #                                default is 'rbf'
+    # m_list_args[2] -> type: float; tolerance; tolerance for the stopping critera, default is 0.001
     #    
     # Important Info:
     # None
@@ -201,7 +201,7 @@ def class_NuSVC(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return NuSVC(nu = float(m_list_args[0]), kernel = str(m_list_args[1]), tol = float(m_list_args[2]))
+    return NuSVC(nu = float(m_list_args[0]), kernel = str(m_list_args[1]), tol = float(m_list_args[2]))
 
 def class_SGDC(m_list_args):
     ###############################################################################################
@@ -219,7 +219,7 @@ def class_SGDC(m_list_args):
     # m_list_args[0] -> type: string; loss function; default is 'hinge'
     # m_list_args[1] -> type: string, penalty, default is 'l2'
     # m_list_args[2] -> type: float; alpha, the regulation term, default is 0.0001
-	# m_list_args[3] -> type: int; number of passes for the training set, default is 5
+    # m_list_args[3] -> type: int; number of passes for the training set, default is 5
     #    
     # Important Info:
     # None
@@ -231,8 +231,8 @@ def class_SGDC(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return SGDClassifier(loss = str(m_list_args[0]), penalty = str(m_list_args[1]), alpha = float(m_list_args[2]), 
-					  n_iter = int(m_list_args[3]))
+    return SGDClassifier(loss = str(m_list_args[0]), penalty = str(m_list_args[1]), alpha = float(m_list_args[2]), 
+                      n_iter = int(m_list_args[3]))
 
 def class_LogisticRegression(m_list_args):
     ###############################################################################################
@@ -249,8 +249,8 @@ def class_LogisticRegression(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: string; penalty, 'l1' or 'l2'
     # m_list_args[1] -> type: float; 'C', inverse of regularization strength, default = 1.0, smaller value stronger regularization
-	# m_list_args[2] -> type: string; solver function, for small data sets or L1 penalty use 'liblinear', multinomial loss use
-	#								'lbfgs' or 'newton-cg', large dataset use 'sag'
+    # m_list_args[2] -> type: string; solver function, for small data sets or L1 penalty use 'liblinear', multinomial loss use
+    #                                'lbfgs' or 'newton-cg', large dataset use 'sag'
     #    
     # Important Info:
     # None
@@ -262,7 +262,7 @@ def class_LogisticRegression(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return LogisticRegression(penalty = str(m_list_args[0]), C = float(m_list_args[1]), solver = str(m_list_args[2]))
+    return LogisticRegression(penalty = str(m_list_args[0]), C = float(m_list_args[1]), solver = str(m_list_args[2]))
 
 def class_NaiveBayes(m_list_args):
     ###############################################################################################
@@ -286,7 +286,7 @@ def class_NaiveBayes(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return GaussianNB()
+    return GaussianNB()
 
 def class_KNN(m_list_args):
     ###############################################################################################
@@ -303,8 +303,8 @@ def class_KNN(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: int; # of neighbors, default is 5
     # m_list_args[1] -> type: string; algorithm, with the options 'auto', 'ball_tree', 'kd_tree', 'brute'
-	# m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
-	#								sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
+    # m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
+    #                                sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
     #    
     # Important Info:
     # None
@@ -316,7 +316,7 @@ def class_KNN(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return KNeighborsClassifier(n_neighbors = int(m_list_args[0]), algorithm = str(m_list_args[1]), metric = str(m_list_args[2]))
+    return KNeighborsClassifier(n_neighbors = int(m_list_args[0]), algorithm = str(m_list_args[1]), metric = str(m_list_args[2]))
 
 def class_RNN(m_list_args):
     ###############################################################################################
@@ -333,8 +333,8 @@ def class_RNN(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; range of parameter space
     # m_list_args[1] -> type: string; algorithm, with the options 'auto', 'ball_tree', 'kd_tree', 'brute'
-	# m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
-	#								sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
+    # m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
+    #                                sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
     #    
     # Important Info:
     # None
@@ -346,8 +346,8 @@ def class_RNN(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return RadiusNeighborsClassifier(radius = float(m_list_args[0]), algorithm = str(m_list_args[1]), 
-								  metric = str(m_list_args[2]))
+    return RadiusNeighborsClassifier(radius = float(m_list_args[0]), algorithm = str(m_list_args[1]), 
+                                  metric = str(m_list_args[2]))
 
 def class_NearestCentroid(m_list_args):
     ###############################################################################################
@@ -364,8 +364,8 @@ def class_NearestCentroid(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; range of parameter space
     # m_list_args[1] -> type: string; algorithm, with the options 'auto', 'ball_tree', 'kd_tree', 'brute'
-	# m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
-	#								sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
+    # m_list_args[2] -> type: string or distance metric object; distance metric, default is 'minkowski, see 
+    #                                sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
     #    
     # Important Info:
     # None
@@ -377,7 +377,7 @@ def class_NearestCentroid(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return NearestCentroid(metric = str(m_list_args[0]))
+    return NearestCentroid(metric = str(m_list_args[0]))
 
 def class_Ridge(m_list_args):
     ###############################################################################################
@@ -394,8 +394,8 @@ def class_Ridge(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: float; range of parameter space
     # m_list_args[1] -> type: string; solver algorithm, options 'auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag'
-	# m_list_args[2] -> type: float; tolerance, percision of the solution
-	#								sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
+    # m_list_args[2] -> type: float; tolerance, percision of the solution
+    #                                sklearn.neighbors.DistanceMetric class in sklearn for all distance metrics
     #    
     # Important Info:
     # None
@@ -407,8 +407,8 @@ def class_Ridge(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return RidgeClassifier(alpha = float(m_list_args[0]), solver = str(m_list_args[1]), 
-								  tol = str(m_list_args[2]))
+    return RidgeClassifier(alpha = float(m_list_args[0]), solver = str(m_list_args[1]), 
+                                  tol = str(m_list_args[2]))
 
 def class_RandomForest(m_list_args):
     ###############################################################################################
@@ -425,8 +425,8 @@ def class_RandomForest(m_list_args):
     # Desc: the list of parameters for the clustering object
     # m_list_args[0] -> type: int; number of trees in the forest, default is 10
     # m_list_args[1] -> type: string; criterion, measure to quantify the split, default is 'gini'
-	# m_list_args[2] -> type: int, float, string; max_features; number of features to consider when looking for the best split,
-	#								see classifier documentaions default is 'auto'
+    # m_list_args[2] -> type: int, float, string; max_features; number of features to consider when looking for the best split,
+    #                                see classifier documentaions default is 'auto'
     #    
     # Important Info:
     # None
@@ -438,5 +438,5 @@ def class_RandomForest(m_list_args):
     ###############################################################################################
     ###############################################################################################
 
-	return RandomForestClassifier(n_estimators = int(m_list_args[0]), criterion = str(m_list_args[1]), 
-								  max_features = m_list_args[2])
+    return RandomForestClassifier(n_estimators = int(m_list_args[0]), criterion = str(m_list_args[1]), 
+                                  max_features = m_list_args[2])
