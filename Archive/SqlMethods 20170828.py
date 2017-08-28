@@ -726,8 +726,7 @@ def SqlDeleteTable(m_sql_connection, m_table_name):
     # return object
     return list_return
 
-def SqlCreateTable(m_sql_connection, m_table_name, m_list_columns, m_bool_wide_table = True,
-                   m_bool_compression = True):
+def SqlCreateTable(m_sql_connection, m_table_name, m_list_columns, m_bool_wide_table = True):
     ###############################################################################################
     ###############################################################################################
     #
@@ -756,10 +755,6 @@ def SqlCreateTable(m_sql_connection, m_table_name, m_list_columns, m_bool_wide_t
     # m_bool_wide_table
     # Type: boolean
     # Desc: flag to indicate if the table should be wide or narrow
-    #  
-    # m_bool_compression
-    # Type: boolean
-    # Desc: flag to enable data compression for the table
     #  
     # Important Info:
     # we are assuing the database in the connection is created and the table does not exist
@@ -803,13 +798,9 @@ def SqlCreateTable(m_sql_connection, m_table_name, m_list_columns, m_bool_wide_t
 
     # close out statement
     if m_bool_wide_table == True:
-        str_create += ', XML_Record XML COLUMN_SET FOR ALL_SPARSE_COLUMNS) '
+        str_create += ', XML_Record XML COLUMN_SET FOR ALL_SPARSE_COLUMNS)'
     else:
-        str_create += ') '
-
-    # add table compression
-    if m_bool_compression == True:
-        str_create += 'WITH (DATA_COMPRESSION = PAGE)'
+        str_create += ')'
 
     # execute sql statement
     try:
