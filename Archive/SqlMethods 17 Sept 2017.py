@@ -1541,5 +1541,3 @@ def SqlWideColumns(m_sql_conn, m_string_table):
 
     # return value
     return list_return
-
-# comment to signal a change in the file
