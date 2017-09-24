@@ -1017,7 +1017,6 @@ def SqlInsertIntoTable(m_sql_conn, m_table_name, m_list_columns, m_list_values, 
 	# lists
 	list_return = list()
 	list_str_values = list()
-	list_insert_many = list()
 
 	# create data type string
 	string_data_type = str()
@@ -1035,35 +1034,32 @@ def SqlInsertIntoTable(m_sql_conn, m_table_name, m_list_columns, m_list_values, 
 	bool_insert_into_table = False
 	str_sql_insert = 'INSERT INTO ' + m_table_name 
 	str_sql_columns = SqlBuildColumnOrValueString(m_list_columns, 'columns', True)
-	if bool_exec_many == False:
-		str_sql_insert_values = SqlBuildColumnOrValueString(m_list_values, 'values', True)
 	
 	# sql insert statement
 	if bool_exec_many == True:
 		# build execute many statement
 		str_sql_statement = str_sql_insert + ' ' + str_sql_columns + ' VALUES ' + string_data_type
+		int_segment_len = 100000
 
 		# list of tuples for insert
 		if isinstance(m_list_values[0], collections.Sequence) and not isinstance(m_list_values[0], str):
-			for record_insert in m_list_values:
-				tuple_temp = tuple(record_insert)
-				list_insert_many.append(tuple_temp)
+			list_insert_many = [tuple(x) for x in m_list_values]
 		else:
-				list_insert_many.append(tuple(m_list_values))
+			list_insert_many = [tuple(m_list_values)]
 
-		# break up insert into 1000 records or less
-		int_segments = int(len(list_insert_many) / 1000)
+		# break up insert into segment length records or less
+		int_segments = int(len(list_insert_many) / int_segment)
 		str_sql_error = ''
 		bool_insert_into_table = True
 
 		for int_seg in range(0, int_segments + 1):
 			# split variables
 			list_insert = list()
-			int_lower = int_seg * 1000
-			int_upper = int_seg * 1000 + 1000
+			int_lower = int_seg * int_segment_len
+			int_upper = int_lower + int_segment_len
 
 			# list split logic
-			if int_seg == 0 and len(list_insert_many) < 1000:
+			if int_seg == 0 and len(list_insert_many) < int_segment_len:
 				list_insert = list_insert_many
 				int_seg = int_segments + 1
 			elif int_seg != int_segments:
