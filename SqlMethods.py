@@ -1764,3 +1764,110 @@ class SqlMethods(object):
         #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
         return list_return
+
+    def alter_table(self, m_string_table, m_string_command = '', m_bool_add_column = False, 
+                    m_bool_drop_column = False, m_bool_alter_column = False):
+        '''
+        This method alters the table with the combination of the boolean flags and the command string
+
+        Requirements:
+        package pymssql
+        
+        Inputs:
+        m_table_name
+        Type: string
+        Desc: the name of the table to get the number of columns
+
+        m_string_command
+        Type: string
+        Desc: the phrase with will accompany the flag
+            if m_bool_add_column is True -> columns_name column_type
+            if m_bool_drop_column is True -> columns_name
+            if m_bool_alter_column is True -> columns_name column_type
+
+        m_bool_add_column
+        Type: boolean
+        Desc: flag to add a column
+
+        m_bool_drop_column
+        Type: boolean
+        Desc: flag to drop a column
+
+        m_bool_alter_column
+        Type: boolean
+        Desc: flag to change a column
+          
+        Important Info:
+        None
+        
+        Return:
+        object
+        Type: list 
+        Desc: the return value to determine if the command executed correctly
+        list_return[0] -> type: bool; True if sql statement executed with no errors, False if not
+        list_return[1] -> if list_return[0] == True; type:string; empty string
+                                 if list_return[0] == False; type:string; text describing the error
+        '''
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+        # sequence declarations (list, set, tuple, dictionary, counter)
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+        list_return = list()
+
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+        # variables declarations
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+        if m_bool_add_column == True:
+            string_sql = 'alter table ' + m_string_table + ' add ' + m_string_command
+        elif m_bool_drop_column == True:
+            string_sql = 'alter table ' + m_string_table + ' drop ' + m_string_command
+        elif m_bool_alter_column == True:
+            string_sql = 'alter table ' + m_string_table + ' alter column ' + m_string_command
+        else:
+            pass
+        string_error = 'no sql connection'
+        bool_alter_table = False
+        
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+        #
+        # Start
+        #
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#            
+        
+        if self._list_conn[0] == True:
+            # gen cursor
+            sql_cursor = self._list_conn[1].cursor()
+            string_error = ''
+
+            #------------------------------------------------------------------------------------------------------------------------------------------------------# 
+            # execute sql statement
+            #------------------------------------------------------------------------------------------------------------------------------------------------------# 
+            
+            try:
+                sql_cursor.execute(string_sql)
+            except pymssql.OperationalError as e:
+                str_sql_error = 'Operational error was raised|'
+                str_sql_error += str(e.args)
+            except pymssql.ProgrammingError as pe:
+                str_sql_error = 'A program error was raised|'
+                str_sql_error += str(pe.args)
+            except pymssql.Error as e:
+                str_sql_error = 'General error raised|'
+                str_sql_error += str(e.args)
+            else:
+                bool_alter_table = True
+                self._list_conn[1].commit()
+            finally:
+                pass
+
+            # delete cursor
+            sql_cursor.close()
+
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+        # return value
+        #------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+        return [bool_alter_table, string_error]
