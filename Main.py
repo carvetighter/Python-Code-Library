@@ -13,8 +13,12 @@ import DataPrep
 import DataVisAndEval
 import time
 import os
+import warnings
 from datetime import datetime
 from datetime import timedelta
+
+# ignore warnings
+warnings.simplefilter('ignore')
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
