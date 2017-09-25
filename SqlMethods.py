@@ -80,10 +80,7 @@ class SqlMethods(object):
     '''
 
     def __init__(self, list_conn_param = []):
-        '''
-        ###############################################################################################
-        ###############################################################################################
-        
+        '''      
         this method initialized the class; if a list is paassed and has all the paramaters a connection will be generated to
         the sql server
         
@@ -113,9 +110,6 @@ class SqlMethods(object):
         bool_is_connected
         Type: boolean
         Desc: flag to help the user to determine if the connection is generated
-
-        ###############################################################################################
-        ###############################################################################################
         '''
         
         # objects for the class
@@ -194,9 +188,6 @@ class SqlMethods(object):
 
     def gen_connection(self, m_string_user, m_string_host, m_string_pswd, m_string_db_name):
         '''
-        ###############################################################################################
-        ###############################################################################################
-        
         this creates a connect to the designated sql server (m_string_host) and database and returns that connection
         
         Requirements:
@@ -233,9 +224,6 @@ class SqlMethods(object):
                                                 connect to the server
         list_connection[1] -> type: pymssql sql server connection object; if list_connection[0] is true then there this will be
                                                 be populated with the sql connection; if false this will be empty string object
-
-        ###############################################################################################
-        ###############################################################################################
         '''
 
         #------------------------------------------------------------------------------------------------------------------------------------------------------#    
@@ -286,9 +274,6 @@ class SqlMethods(object):
 
     def close(self):
         '''
-        ###############################################################################################
-        ###############################################################################################
-        
         this method closes the connetion if it exists
         
         Requirements:
@@ -304,9 +289,6 @@ class SqlMethods(object):
         None
         Type: n/a
         Desc: n/a
-
-        ###############################################################################################
-        ###############################################################################################
         '''
         if self._list_conn[0] == True:
             self._list_conn[1].close()
