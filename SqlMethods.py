@@ -282,7 +282,7 @@ class SqlMethods(object):
         #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
         self._list_conn = list_connection
-        self._update_flags('bool_is_conected')
+        self._update_flags('bool_is_connected')
 
     def close(self):
         '''
@@ -955,9 +955,10 @@ class SqlMethods(object):
 
         list_return.append(bool_query)
         if bool_query == True:
-            return list_return.append(list_results)
+            list_return.append(list_results)
         else:
-            return list_return.append(str_sql_error)
+            list_return.append(str_sql_error)
+        return list_return
 
     def insert(self, m_string_table, m_list_columns, m_list_values):
         '''
