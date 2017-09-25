@@ -293,7 +293,7 @@ class SqlMethods(object):
         if self._list_conn[0] == True:
             self._list_conn[1].close()
             self._list_conn[0] = False
-            self._update_flags()
+            self._update_flags('bool_is_connected')
 
     def gen_select_statement(self, m_string_init = '', m_string_select = '', m_string_from = '', m_string_where = '', 
                                                m_string_end = ''):
