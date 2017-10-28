@@ -260,5 +260,5 @@ def increment_group(m_dataframe_group):
     # return value
     #-----------------------------------------------------------------------------------------#
 
-    m_dataframe_group['group_count'] = arange(len(m_dataframe_group))
+    m_dataframe_group['group_count'] = numpy.arange(len(m_dataframe_group))
     return m_dataframe_group
