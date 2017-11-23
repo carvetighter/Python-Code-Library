@@ -845,7 +845,7 @@ class SqlMethods(object):
                 str_sql_error += str(e.args)
             else:
                 bool_truncate_table = True
-                self._list_conn[1].commit()
+                #self._list_conn[1].commit()
             finally:
                 pass
 
@@ -1109,7 +1109,8 @@ class SqlMethods(object):
                     str_sql_error += ';General error raised|' + str(e.args)
                     bool_insert_into_table = False
                 else:
-                    self._list_conn[1].commit()
+                    pass
+                    #self._list_conn[1].commit()
                 finally:
                     pass
 
@@ -1398,7 +1399,7 @@ class SqlMethods(object):
                 else:
                     string_error = ''
                     bool_return = True
-                    self._list_conn[1].commit()
+                    #self._list_conn[1].commit()
                 finally:
                     pass
 
@@ -1517,7 +1518,7 @@ class SqlMethods(object):
                 str_sql_error += str(se.args)
             else:
                 bool_insert_into_table = True
-                self._list_conn[1].commit()
+                #self._list_conn[1].commit()
             finally:
                 pass
 
@@ -1842,7 +1843,7 @@ class SqlMethods(object):
                 str_sql_error += str(e.args)
             else:
                 bool_alter_table = True
-                self._list_conn[1].commit()
+                #self._list_conn[1].commit()
             finally:
                 pass
 
