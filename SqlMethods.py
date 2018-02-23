@@ -1255,7 +1255,7 @@ class SqlMethods(object):
         list_return.append(str_sql_error)
         return list_return
 
-    def update(self, m_table_name, m_list_columns, m_list_values, m_list_where = []):
+    def update(self, m_table_name, m_list_columns, m_list_values, m_string_where = ''):
         '''
         this method updates specific columns in a table
         
@@ -1275,9 +1275,9 @@ class SqlMethods(object):
         Type: list
         Desc: the list of values to update the columns
           
-        m_list_where
-        type: list
-        Desc: list of where clauses
+        m_string_where
+        type: string
+        Desc: appended to 'where' to for where statement
         
         Important Info:
         the length of lists m_list_columns and m_list_values must be in the same length and order
@@ -1347,11 +1347,8 @@ class SqlMethods(object):
                 pass
 
             # build where string
-            if len(m_list_where) > 0:
-                for string_w in m_list_where:
-                    string_sql_where += string_w + ', '
-
-                string_sql_where = string_sql_where[:-2]
+            if len(m_string_where) > 0:
+                string_sql_where += m_string_where
             else:
                 string_sql_where = ''
 
