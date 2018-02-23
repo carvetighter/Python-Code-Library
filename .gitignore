@@ -4,7 +4,6 @@
 # user name and password files
 user_pswds.py
 __pycache__/*
-__pycache__/*.pyc
 .vscode
 
 # User-specific files
