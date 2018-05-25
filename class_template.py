@@ -1,33 +1,30 @@
+'''
+Class template
+'''
+
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #
 # File / Package Import
 #
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#        
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
-import csv
-import io
-import time
-import sys
-import os
 import collections
-from datetime import datetime
-from datetime import timedelta
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #
-# Class
+# Classes
 #
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#    
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
 class ClassName(object):
     '''
-    This class makes it easier to connect and work with a sql server.  The list of methods below are 
+    This class makes it easier to connect and work with a sql server.  The list of methods below are
     firther defined in the methods themselves
-    
+
     Requirements:
     package pymssql
     package collections
@@ -35,63 +32,30 @@ class ClassName(object):
 
     Methods:
     gen_connection()
-           - creates connection to the database
+        creates connection to the database
 
-    close()
-            - closes the connection to the database
-    
-    gen_select_statement()
-           - generates the sql select staement
-
-    query_select()
-            - queries the table
-    
-    get_num_columns()
-            - returns the number of columns in a table
-            - can be used to determine if table is wide or not
-    
-    get_table_columns()
-            - returns the columns in a table
-    
-    table_exists()
-            - tests if a table exists or not
-    
-    delete_table()
-            - deletes the table in a database
-    
-    create_table()
-            - creates a table in a database
-    
-    truncate_table()
-            - delete all the contents in a table
-
-    delete_records()
-            - delete certain records of the table
-    
-    insert()
-           - inserts values into a table in a database
-    
-    update()
-          - update existing columns in a table
-    
-    get_wide_columns()
-            - check the columns from the table
+    method_name()
+        ....
 
     Attributes:
     bool_is_connected
-            - flag to determine if the connection is open or closed
-                True -> connection is open
-                False -> connection is closed
+        flag to determine if the connection is open or closed
+            True -> connection is open
+            False -> connection is closed
     '''
-    
-    def __init__(self, list_conn_param = []):
-        '''      
-        this method initialized the class; if a list is paassed and has all the paramaters a connection will 
+
+    #--------------------------------------------------------------------------#
+    # constructor
+    #--------------------------------------------------------------------------#
+
+    def __init__(self, list_conn_param):
+        '''
+        this method initialized the class; if a list is paassed and has all the paramaters a connection will
         be generated to the sql server
-        
+
         Requirements:
         package pymssql
-        
+
         Inputs:
         list_conn_param
         Type: list
@@ -100,11 +64,11 @@ class ClassName(object):
         list_conn_param[1] -> type: string; host or server
         list_conn_param[2] -> type: string; user password
         list_conn_param[3] -> type: string; database name
-        
+
         Important Info:
         1. the paramaters must use r'xxxxx' as raw strings but is used in relational expressions,
             eg. m_string_user = r'user name'
-        
+
         Objects and Properties:
         list_conn
         Type: list
@@ -116,37 +80,34 @@ class ClassName(object):
         Type: boolean
         Desc: flag to help the user to determine if the connection is generated
         '''
-        
+
         # objects for the class
         self._list_conn = list()
         self._dict_flags = {}
         self.bool_is_connected = False
-        
+
         # test pamater list to generate the connection
         if len(list_conn_param) == 4 and isinstance(list_conn_param, collections.Sequence) and \
-                        not isinstance(
-            list_conn_param, str):
-            self.gen_connection(m_string_user = list_conn_param[0],
-                                              m_string_host = list_conn_param[1],
-                                              m_string_pswd = list_conn_param[2],
-                                              m_string_db_name = list_conn_param[3])
+                not isinstance(list_conn_param, str):
+            self.gen_connection(
+                m_string_user = list_conn_param[0],
+                m_string_host = list_conn_param[1],
+                m_string_pswd = list_conn_param[2],
+                m_string_db_name = list_conn_param[3])
 
-    def _update_flags(self, *args):
-        '''
-        '''
-        self._dict_flags = {'bool_is_connected':self._list_conn[0]}
+    #--------------------------------------------------------------------------#
+    # callable methods
+    # 
+    # methods that directly support callable methods should
+    # be underneath method
+    #--------------------------------------------------------------------------#
 
-        for string_flag in args:
-            if string_flag in self._dict_flags.keys():
-                if string_flag == 'bool_is_connected':
-                    self.bool_is_connected = self._dict_flags[string_flag]
-               
     def def_Methods(self, list_cluster_results, array_sparse_matrix):
         '''
         below is an example of a good method comment
-    
+
         ---------------------------------------------------------------------------------------------------------------------------------------------------
-    
+
         this method implements the evauluation criterea for the clusters of each clutering algorithms
         criterea:
                - 1/2 of the clusters for each result need to be:
@@ -155,13 +116,13 @@ class ClassName(object):
                    - the standard deviation of the clusters need to be lower than the standard deviation of all the clusters
                      combined
                - silhouette value for the dataset must be greater than 0.5
-    
+
         Requirements:
         package time
         package numpy
         package statistics
         package sklearn.metrics
-    
+
         Inputs:
         list_cluster_results
         Type: list
@@ -169,14 +130,14 @@ class ClassName(object):
         list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as indicated by the sparse
                          or dense array
         list[x][1] -> type: string; the cluster ID with the parameters
-    
+
         array_sparse_matrix
         Type: numpy array
         Desc: a sparse matrix of the samples used for clustering
-        
+
         Important Info:
         None
-    
+
         Return:
         object
         Type: list
@@ -217,7 +178,7 @@ class ClassName(object):
         # Start
         #
         #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#                
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
         #--------------------------------------------------------------------------------#
         # sub-section comment
@@ -229,7 +190,7 @@ class ClassName(object):
         # sectional comment
         #
         #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#                
+        #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
         #--------------------------------------------------------------------------------#
         # variable / object cleanup
@@ -239,6 +200,18 @@ class ClassName(object):
         # return value
         #--------------------------------------------------------------------------------#
 
-        return list_return
+        pass
 
+    #--------------------------------------------------------------------------#
+    # supportive methods
+    #--------------------------------------------------------------------------#
 
+    def _update_flags(self, *args):
+        '''
+        '''
+        self._dict_flags = {'bool_is_connected':self._list_conn[0]}
+
+        for string_flag in args:
+            if string_flag in self._dict_flags.keys():
+                if string_flag == 'bool_is_connected':
+                    self.bool_is_connected = self._dict_flags[string_flag]
