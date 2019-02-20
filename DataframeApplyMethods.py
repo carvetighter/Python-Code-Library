@@ -1,13 +1,18 @@
+'''
+...
+'''
+
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 #
 # File / Package Import
 #
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#        
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
-from saxony_code_library.saxutil.cntr_util import dists_from_ref_cntr
 from collections import Counter
+from collections import Iterable
+from saxutil.cntr_util import dists_from_ref_cntr
 import numpy
 import pandas
 
@@ -20,37 +25,37 @@ import pandas
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
 
 def get_first_string_value_in_series(m_list_temp):
-    ###############################################################################################
-    ###############################################################################################
-    #
-    # this method is a function for a pandas series the returns the last value of a list.  each element of the
-    # series is a list
-    #
-    # Requirements:
-    # package pandas
-    #
-    # Inputs:
-    # m_list_temp
-    # Type: list
-    # Desc: list which is an element of the pandas series
-    #
-    # Important Info:
-    # None
-    #
-    # Return:
-    # object
-    # Type: various, variable of the list
-    # Desc: the last element of the list in the series
-    ###############################################################################################
-    ###############################################################################################
+    '''
+    this method is a function for a pandas series the returns the last value of a list.
+    each element of the series is a list of strings.
+
+    Requirements:
+    package pandas
+
+    Inputs:
+    m_list_temp
+    Type: list
+    Desc: list which is an element of the pandas series
+
+    Important Info:
+    None
+
+    Return:
+    object
+    Type: various, variable of the list
+    Desc: the last element of the list in the series
+    '''
 
     #------------------------------------------------------------------------------------------------------------------------------------------------------#
     # find the index of the first value that is not an empty string
     #------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-    for string_temp in m_list_temp:
-        if len(string_temp) > 0:
-            break
+    if isinstance(m_list_temp, Iterable) and len(m_list_temp) > 0:
+        for string_temp in m_list_temp:
+            if len(string_temp) > 0:
+                break
+    else:
+        string_temp = ''
 
     #------------------------------------------------------------------------------------------------------------------------------------------------------#
     # return value
@@ -59,28 +64,25 @@ def get_first_string_value_in_series(m_list_temp):
     return string_temp
 
 def counter_for_string(m_string_phrase):
-    ###############################################################################################
-    ###############################################################################################
-    #
-    # this method returns a counter for a string by the letters of the string
-    #
-    # Requirements:
-    # package collections
-    #
-    # Inputs:
-    # m_string_phrase
-    # Type: string
-    # Desc: the string to count
-    #
-    # Important Info:
-    # None
-    #
-    # Return:
-    # counter object
-    # Type: counter
-    # Desc: the count of lettters of the string
-    ###############################################################################################
-    ###############################################################################################    
+    '''
+    this method returns a counter for a string by the letters of the string
+
+    Requirements:
+    package collections
+
+    Inputs:
+    m_string_phrase
+    Type: string
+    Desc: the string to count
+
+    Important Info:
+    None
+
+    Return:
+    counter object
+    Type: counter
+    Desc: the count of lettters of the string
+    '''
 
     #------------------------------------------------------------------------------------------------------------------------------------------------------#
     # return value
@@ -89,37 +91,35 @@ def counter_for_string(m_string_phrase):
     return Counter(m_string_phrase)
 
 def cosine_dist_for_counters(m_row, m_string_col_01, m_string_col_02):
-    ###############################################################################################
-    ###############################################################################################
-    #
-    # this method computes the cosine distance from two columns in a dataframe
-    #
-    # Requirements:
-    # file cntr_util
-    # package numpy, collections
-    #
-    # Inputs:
-    # m_row
-    # Type: dataframe row
-    # Desc: this is a dummy variable for the row of the dataframe
-    #
-    # m_string_col_01
-    # Type: string
-    # Desc: the column 01 to pull the data
-    #    
-    # m_string_col_02
-    # Type: string
-    # Desc: the column 01 to pull the data
-    #    
-    # Important Info:
-    # axis must equal 1 in the dataframe.apply() method
-    #
-    # Return:
-    # variable
-    # Type: float
-    # Desc: the cosine distance between two columns
-    ###############################################################################################
-    ###############################################################################################    
+    '''
+    this method computes the cosine distance from two columns in a dataframe
+
+    Requirements:
+    file cntr_util
+    package numpy
+    package collections
+
+    Inputs:
+    m_row
+    Type: dataframe row
+    Desc: this is a dummy variable for the row of the dataframe
+
+    m_string_col_01
+    Type: string
+    Desc: the column 01 to pull the data
+
+    m_string_col_02
+    Type: string
+    Desc: the column 01 to pull the data
+
+    Important Info:
+    axis must equal 1 in the dataframe.apply() method
+
+    Return:
+    variable
+    Type: float
+    Desc: the cosine distance between two columns
+    '''
 
     #------------------------------------------------------------------------------------------------------------------------------------------------------#
     # objects declarations
