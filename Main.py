@@ -2,36 +2,29 @@
 main file template
 '''
 
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#
-# File / Package Import
-#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+'''
+package import
+'''
 
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#
-# Methods
-#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+'''
+methods
+'''
+
 
 def def_Methods(list_cluster_results, array_sparse_matrix):
     '''
     below is an example of a good method comment
 
-    ------------------------------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------#
 
     this method implements the evauluation criterea for the clusters of each clutering algorithms
     criterea:
-           - 1/2 of the clusters for each result need to be:
-               - the average silhouette score of the cluster needs to be higher then the silhouette score of
-                 all the clusters combined
-               - the standard deviation of the clusters need to be lower than the standard deviation of all the
-                 clusters combined
-           - silhouette value for the dataset must be greater than 0.5
+            - 1/2 of the clusters for each result need to be:
+                - the average silhouette score of the cluster needs to be higher then the silhouette score of all the clusters
+                  combined
+                - the standard deviation of the clusters need to be lower than the standard deviation of all the clusters
+                  combined
+            - silhouette value for the dataset must be greater than 0.5
 
     Requirements:
     package time
@@ -43,8 +36,8 @@ def def_Methods(list_cluster_results, array_sparse_matrix):
     list_cluster_results
     Type: list
     Desc: the list of parameters for the clustering object
-    list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as
-                        indicated by the sparse or dense array
+    list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as indicated by the sparse
+                    or dense array
     list[x][1] -> type: string; the cluster ID with the parameters
 
     array_sparse_matrix
@@ -58,77 +51,62 @@ def def_Methods(list_cluster_results, array_sparse_matrix):
     object
     Type: list
     Desc: this of the clusters that meet the evaluation criterea
-    list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as
-                    indicated by the sparse or dense array
+    list[x][0] -> type: array; of cluster results by sample in the order of the sample row passed as indicated by the sparse
+                    or dense array
     list[x][1] -> type: string; the cluster ID with the parameters
     list[x][2] -> type: float; silhouette average value for the entire set of data
     list[x][3] -> type: array; 1 dimensional array of silhouette values for each data sample
-    list[x][4] -> type: list; list of lists, the cluster and the average silhoutte value for each cluster, the
-                        orders is sorted highest to lowest silhoutte value
+    list[x][4] -> type: list; list of lists, the cluster and the average silhoutte value for each cluster, the orders is sorted
+                        highest to lowest silhoutte value
                         list[x][4][x][0] -> int; cluster label
                         list[x][4][x][1] -> float; cluster silhoutte value
     list[x][5] -> type: list; a list that contains the cluster label and the number of samples in each cluster
-                       list[x][5][x][0] -> int; cluster label
-                       list[x][5][x][1] -> int; number of samples in cluster list[x][5][x][0]
+                        list[x][5][x][0] -> int; cluster label
+                        list[x][5][x][1] -> int; number of samples in cluster list[x][5][x][0]
     '''
 
-    #--------------------------------------------------------------------------#
-    # objects declarations
-    #--------------------------------------------------------------------------#
+    '''
+    objects declarations
+    '''
 
-    #--------------------------------------------------------------------------#
-    # time declarations
-    #--------------------------------------------------------------------------#
+    '''
+    sequence declarations (list, set, tuple, counter, dictionary)
+    '''
 
-    #--------------------------------------------------------------------------#
-    # lists declarations
-    #--------------------------------------------------------------------------#
+    '''
+    variables declarations
+    '''
 
-    #--------------------------------------------------------------------------#
-    # variables declarations
-    #--------------------------------------------------------------------------#
+    '''
+    Start
+    '''
 
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #
-    # Start
-    #
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    '''
+    sub-section comment
+    '''
 
-    #--------------------------------------------------------------------------#
-    # sub-section comment
-    #--------------------------------------------------------------------------#
+    '''
+    sectional comment
+    '''
 
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #
-    # sectional comment
-    #
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+    '''
+    variable / object cleanup
+    '''
 
-    #--------------------------------------------------------------------------#
-    # variable / object cleanup
-    #--------------------------------------------------------------------------#
+    '''
+    return value
+    '''
 
-    #--------------------------------------------------------------------------#
-    # return value
-    #--------------------------------------------------------------------------#
+    return
 
-    pass
-
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#
-# Main Method
-#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
+'''
+main method
+'''
 
 def main(list_args = []):
     '''
-    this is the main method tests the bulk insert and single insert for the SqlInsertIntoTable method
+    this is the main method tests the bulk insert and single insert
+    for the SqlInsertIntoTable method
 
     Requirements:
     None
@@ -149,55 +127,30 @@ def main(list_args = []):
     Description: None
     '''
 
-    #--------------------------------------------------------------------------#
-    # object declarations
-    #--------------------------------------------------------------------------#
+    '''
+    object declarations
+    '''
 
-    #--------------------------------------------------------------------------#
-    # time declarations
-    #--------------------------------------------------------------------------#
+    '''
+    sequence declarations (list, set, tuple)
+    '''
 
-    #--------------------------------------------------------------------------#
-    # sequence declarations (list, set, tuple)
-    #--------------------------------------------------------------------------#
+    '''
+    variables declarations
+    '''
 
-    #--------------------------------------------------------------------------#
-    # variables declarations
-    #--------------------------------------------------------------------------#
+    '''
+    start
+    '''
 
-    #--------------------------------------------------------------------------#
-    # db connections
-    #--------------------------------------------------------------------------#
+    '''
+    variable / object cleanup
+    '''
 
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #
-    # Start
-    #
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-
-    #--------------------------------------------------------------------------#
-    # comment
-    #--------------------------------------------------------------------------#
-
-    #--------------------------------------------------------------------------#
-    # generate insert list
-    #--------------------------------------------------------------------------#
-
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #
-    # sectional comment
-    #
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-    #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#
-
-    #--------------------------------------------------------------------------#
-    # variable / object cleanup
-    #--------------------------------------------------------------------------#
-
-    pass
+    '''
+    return value
+    '''
+    return
 
 # call Main
 if __name__ == '__main__':

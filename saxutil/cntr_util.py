@@ -6,7 +6,6 @@ def convert_values_to_float(cntr):
     for k, v in cntr.items():
         cntr[k] = float(v)
 
-
 def mtx_from_cntrs(cntrs):
     # Convert all the values in the counters to floats
     for i in range(len(cntrs)):
